@@ -1,4 +1,4 @@
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/api";
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,7 +11,9 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
   const { id } = await params;
 
   const note = await fetchNoteById(id);
