@@ -1,6 +1,6 @@
 import { NewNoteBody, Note } from "@/types/note";
 import { baseURL, Nextapi } from "./api";
-import { RegisterRequest, User } from "@/types/user";
+import { LoginRequest, RegisterRequest, User } from "@/types/user";
 
 export const createNote = async (newNote: NewNoteBody) => {
   const res = await Nextapi.post<Note>("/notes", newNote, {
@@ -22,5 +22,10 @@ export const deleteNote = async (taskId: string) => {
 
 export const register = async (data: RegisterRequest) => {
   const res = await Nextapi.post<User>(`/auth/register`, data);
+  return res.data;
+};
+
+export const login = async (data: LoginRequest) => {
+  const res = await Nextapi.post<User>(`/auth/login`, data);
   return res.data;
 };
