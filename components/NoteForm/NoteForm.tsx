@@ -2,10 +2,11 @@
 import css from "./NoteForm.module.css";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { NewNoteBody } from "../../types/note";
-import { createNote } from "@/lib/api/api";
+
 import { useRouter } from "next/navigation";
 import { useDraftNoteHub } from "@/lib/store/noteStore";
 import { ChangeEvent } from "react";
+import { createNote } from "@/lib/api/clientApi";
 
 function NoteForm() {
   const router = useRouter();

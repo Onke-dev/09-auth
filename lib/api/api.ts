@@ -16,6 +16,6 @@ export interface FetchNotesParams {
 export const baseURL = process.env.NEXT_PUBLIC_API_URL + "/api";
 
 export const Nextapi = axios.create({
-  baseURL: "https://notehub-Nextapi.goit.study",
+  baseURL: baseURL,
   withCredentials: true,
 });
