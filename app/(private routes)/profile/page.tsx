@@ -1,19 +1,22 @@
 import Image from "next/image";
 import css from "./ProfilePage.module.css";
+import { getMe } from "@/lib/api/serverApi";
+import Link from "next/link";
 
-const Profile = () => {
+const Profile = async () => {
+  const user = await getMe();
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <div className={css.header}>
           <h1 className={css.formTitle}>Profile Page</h1>
-          <a href="/profile/edit" className={css.editProfileButton}>
+          <Link href="/profile/edit" className={css.editProfileButton}>
             Edit Profile
-          </a>
+          </Link>
         </div>
         <div className={css.avatarWrapper}>
           <Image
-            src="/user_avatar"
+            src={user.avatar}
             alt="User Avatar"
             width={120}
             height={120}
@@ -21,8 +24,8 @@ const Profile = () => {
           />
         </div>
         <div className={css.profileInfo}>
-          <p>Username: user_username</p>
-          <p>Email: user_email</p>
+          <p>Username: {user.username}</p>
+          <p>Email: {user.email}</p>
         </div>
       </div>
     </main>

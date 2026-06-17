@@ -1,6 +1,7 @@
 import { NewNoteBody, Note } from "@/types/note";
 import { baseURL, Nextapi } from "./api";
 import { LoginRequest, RegisterRequest, User } from "@/types/user";
+import { CheckSessionRequest } from "@/types/session";
 
 export const createNote = async (newNote: NewNoteBody) => {
   const res = await Nextapi.post<Note>("/notes", newNote, {
@@ -27,5 +28,19 @@ export const register = async (data: RegisterRequest) => {
 
 export const login = async (data: LoginRequest) => {
   const res = await Nextapi.post<User>(`/auth/login`, data);
+  return res.data;
+};
+
+export const logout = async (): Promise<void> => {
+  await Nextapi.post("/auth/logout");
+};
+
+export const checkSession = async () => {
+  const res = await Nextapi.get<CheckSessionRequest>(`/auth/session`);
+  return res.data.success;
+};
+
+export const getMe = async () => {
+  const res = await Nextapi.get<User>(`/auth/me`);
   return res.data;
 };

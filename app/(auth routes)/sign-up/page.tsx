@@ -4,10 +4,12 @@ import css from "./SignUpPage.module.css";
 import { useRouter } from "next/navigation";
 import { RegisterRequest } from "@/types/user";
 import { register } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
 
 const SignUp = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
     try {
@@ -28,6 +30,7 @@ const SignUp = () => {
 
       const res = await register(data);
       if (res) {
+        setUser(res);
         router.push("/profile");
       } else {
         setError("It's not this email or password");

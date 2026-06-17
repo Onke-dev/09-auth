@@ -4,10 +4,13 @@ import css from "./SignInPage.module.css";
 import { useState } from "react";
 import { login } from "@/lib/api/clientApi";
 import { LoginRequest } from "@/types/user";
+import { useAuthStore } from "@/lib/store/authStore";
 
 const SignIn = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
+
   const handleSubmit = async (formData: FormData) => {
     try {
       const emailValues = formData.get("email");
@@ -27,6 +30,7 @@ const SignIn = () => {
 
       const res = await login(data);
       if (res) {
+        setUser(res);
         router.push("/profile");
       } else {
         setError("It's not this email or password");
