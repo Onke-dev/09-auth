@@ -4,5 +4,4 @@ export type CheckSessionRequest = {
 
 export type UpdateUserRequest = {
   userName?: string;
-  photoUrl?: string;
 };

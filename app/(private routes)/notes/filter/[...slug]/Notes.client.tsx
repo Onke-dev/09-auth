@@ -4,11 +4,12 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import css from "./NotesPage.module.css";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import fetchNotes from "@/lib/api/api";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
 import NoteList from "@/components/NoteList/NoteList";
 import { useRouter } from "next/navigation";
+import { fetchNotes } from "@/lib/api/clientApi";
+
 
 function NotesClient({ tag }: { tag?: string }) {
   const router = useRouter();
