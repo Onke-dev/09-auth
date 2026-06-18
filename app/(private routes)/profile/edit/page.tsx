@@ -4,12 +4,15 @@ import css from "./EditProfilePage.module.css";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
 
 const Edit = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
   const router = useRouter();
+
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleBack = () => {
     router.back();
@@ -29,7 +32,16 @@ const Edit = () => {
 
   const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await updateMe({ userName: username });
+    try {
+      const updatedUser = await updateMe({ username });
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
+      router.refresh();
+      handleBack();
+    } catch (error) {
+      console.error(`Failed to update!, ${error}`);
+    }
   };
   return (
     <main className={css.mainContent}>

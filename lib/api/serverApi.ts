@@ -23,7 +23,6 @@ export const fetchNotes = async ({
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
-  const cookieStore = await cookies();
   const res = await Nextapi.get<Note>(`/notes/${id}`, {
     headers: {
       Cookie: cookieStore.toString(),
