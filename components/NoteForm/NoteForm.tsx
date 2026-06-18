@@ -40,14 +40,32 @@ function NoteForm() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
-    setDraft({ ...draft, [e.target.name]: e.target.value });
+    setDraft({ ...(draft || {}), [e.target.name]: e.target.value });
   };
 
   const handleCreate = (action: FormData) => {
+    const titleValue = action.get("title");
+    const contentValue = action.get("content");
+    const tagValue = action.get("tag");
+
+    if (
+      typeof titleValue !== "string" ||
+      typeof contentValue !== "string" ||
+      typeof tagValue !== "string"
+    ) {
+      console.error("Invalid values");
+      return;
+    }
+
+    if (!titleValue.trim() || !contentValue.trim()) {
+      console.error("Title and content cannot be empty");
+      return;
+    }
+
     const newNote: NewNoteBody = {
-      title: action.get("title") as string,
-      content: action.get("content") as string,
-      tag: action.get("tag") as string,
+      title: titleValue,
+      content: contentValue,
+      tag: tagValue,
     };
     mutate(newNote);
   };
@@ -60,32 +78,32 @@ function NoteForm() {
           name="title"
           type="text"
           className={css.input}
-          defaultValue={draft?.title}
+          defaultValue={draft?.title || ""}
           onChange={handleChange}
         />
         {/* <span name="title" component="span" className={css.error} /> */}
       </div>
 
       <div className={css.formGroup}>
-        <label htmlFor="content">Content</label>
+        <label htmlFor="textarea">Content</label>
         <textarea
           id="textarea"
           name="content"
           rows={8}
           className={css.textarea}
-          defaultValue={draft?.content}
+          defaultValue={draft?.content || ""}
           onChange={handleChange}
         />
         {/* <span name="content" component="span" className={css.error} /> */}
       </div>
 
       <div className={css.formGroup}>
-        <label htmlFor="tag">Tag</label>
+        <label htmlFor="select">Tag</label>
         <select
           id="select"
           name="tag"
           className={css.select}
-          defaultValue={draft?.tag}
+          defaultValue={draft?.tag || "Todo"}
           onChange={handleChange}
         >
           <option value="Todo">Todo</option>

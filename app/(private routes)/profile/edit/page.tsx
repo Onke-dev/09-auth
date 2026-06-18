@@ -3,15 +3,23 @@ import Image from "next/image";
 import css from "./EditProfilePage.module.css";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Edit = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   useEffect(() => {
     getMe().then((user) => {
       setUsername(user.username ?? "");
       setEmail(user.email ?? "");
+      setAvatar(user.avatar ?? "");
     });
   }, []);
 
@@ -29,7 +37,7 @@ const Edit = () => {
         <h1 className={css.formTitle}>Edit Profile</h1>
 
         <Image
-          src="/avatar"
+          src={avatar}
           alt="User Avatar"
           width={120}
           height={120}
@@ -54,7 +62,11 @@ const Edit = () => {
             <button type="submit" className={css.saveButton}>
               Save
             </button>
-            <button type="button" className={css.cancelButton}>
+            <button
+              type="button"
+              className={css.cancelButton}
+              onClick={handleBack}
+            >
               Cancel
             </button>
           </div>

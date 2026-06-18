@@ -1,5 +1,5 @@
 import { Note } from "@/types/note";
-import { baseURL, FetchNotesParams, FetchNotesRes, Nextapi } from "./api";
+import { FetchNotesParams, FetchNotesRes, Nextapi } from "./api";
 import { User } from "@/types/user";
 import { cookies } from "next/headers";
 
@@ -8,6 +8,7 @@ export const fetchNotes = async ({
   page,
   tag,
 }: FetchNotesParams): Promise<FetchNotesRes> => {
+  const cookieStore = await cookies();
   const res = await Nextapi.get<FetchNotesRes>("/notes", {
     params: {
       search: mysearchtext,
@@ -15,17 +16,16 @@ export const fetchNotes = async ({
       tag,
     },
     headers: {
-      Authorization: `Bearer ${baseURL}`,
       Cookie: cookieStore.toString(),
     },
   });
   return res.data;
 };
 
-export const fetchNoteById = async (taskId: string) => {
-  const res = await Nextapi.get<Note>(`/notes/${taskId}`, {
+export const fetchNoteById = async (id: string): Promise<Note> => {
+  const cookieStore = await cookies();
+  const res = await Nextapi.get<Note>(`/notes/${id}`, {
     headers: {
-      Authorization: `Bearer ${baseURL}`,
       Cookie: cookieStore.toString(),
     },
   });
@@ -37,12 +37,11 @@ export const checkSession = async () => {
   const cookieStore = await cookies();
   const res = await Nextapi.get("/auth/session", {
     headers: {
-      // передаємо кукі далі
       Cookie: cookieStore.toString(),
     },
   });
   // Повертаємо повний респонс, щоб proxy мав доступ до нових cookie
-  return res;
+  return res.data;
 };
 
 export const getMe = async (): Promise<User> => {

@@ -2,6 +2,25 @@ import Image from "next/image";
 import css from "./ProfilePage.module.css";
 import { getMe } from "@/lib/api/serverApi";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+  description: "This is Profile page for user.",
+  openGraph: {
+    title: "Profile",
+    description: "This is Profile page for user.",
+    url: "https://08-zustand-ebon-three.vercel.app/",
+    images: [
+      {
+        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Profile",
+      },
+    ],
+  },
+};
 
 const Profile = async () => {
   const user = await getMe();
