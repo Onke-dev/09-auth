@@ -1,7 +1,7 @@
 import { NewNoteBody, Note } from "@/types/note";
 import { baseURL, Nextapi } from "./api";
 import { LoginRequest, RegisterRequest, User } from "@/types/user";
-import { CheckSessionRequest } from "@/types/session";
+import { CheckSessionRequest, UpdateUserRequest } from "@/types/session";
 
 export const createNote = async (newNote: NewNoteBody) => {
   const res = await Nextapi.post<Note>("/notes", newNote, {
@@ -42,5 +42,10 @@ export const checkSession = async () => {
 
 export const getMe = async () => {
   const res = await Nextapi.get<User>(`/auth/me`);
+  return res.data;
+};
+
+export const updateMe = async (payload: UpdateUserRequest) => {
+  const res = await Nextapi.patch<User>("/usets/me", payload);
   return res.data;
 };
