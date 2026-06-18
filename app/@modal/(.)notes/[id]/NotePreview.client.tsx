@@ -33,6 +33,14 @@ function NotePreviewClient() {
 
   return (
     <Modal onClose={close}>
+      <button
+        type="button"
+        className={css.closeButton}
+        onClick={close}
+        aria-label="Close"
+      >
+        Cancel
+      </button>
       <div className={css.container}>
         <div className={css.item}>
           <div className={css.header}>

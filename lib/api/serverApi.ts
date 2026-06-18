@@ -23,6 +23,7 @@ export const fetchNotes = async ({
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
+  const cookieStore = await cookies();
   const res = await Nextapi.get<Note>(`/notes/${id}`, {
     headers: {
       Cookie: cookieStore.toString(),
@@ -40,7 +41,7 @@ export const checkSession = async () => {
     },
   });
   // Повертаємо повний респонс, щоб proxy мав доступ до нових cookie
-  return res.data;
+  return res;
 };
 
 export const getMe = async (): Promise<User> => {
